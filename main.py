@@ -14,7 +14,7 @@ rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
 player_names = {}
 for i in range(1, players + 1):
     name = input(f"Voer de naam in van speler {i}: ")
-    player_names[i] = name 
+    player_names[i] = name
 # Define categories with names
 categories = {
     "Historisch Bewustzijn": {
