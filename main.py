@@ -1,8 +1,20 @@
 import time
 import random
 
-lives = 3
-rounds = 5
+players = int(input("Hoeveel spelers zijn er? (1-4): "))
+if players in [1, 2, 3, 4]:
+    pass
+else:
+    print("Ongeldig aantal spelers. Voer een getal in tussen 1 en 4.")
+    exit()
+
+lives = int(input("Hoeveel levens wil je hebben?: "))
+rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
+# Ask for player names
+player_names = {}
+for i in range(1, players + 1):
+    name = input(f"Voer de naam in van speler {i}: ")
+    player_names[i] = name
 
 # Define categories with names
 categories = {
@@ -15,7 +27,25 @@ categories = {
     "Ruimtelijk Bewustzijn": {"Wat is de hoofdstad van België?": "Brussel", "Wat is de hoofdstad van Nederland?": "Amsterdam", "Welke zee is noord van belgië?": "Noordzee"},
 }
 
-for _ in range(rounds):
+# Initialize player scores and lives
+player_lives = {player: lives for player in range(1, players + 1)}
+player_scores = {player: 0 for player in range(1, players + 1)}
+
+# Total rounds to be played
+total_rounds = rounds * players
+
+# Update the loop to use player numbers instead of names
+for current_round in range(total_rounds):
+    # Determine the current player number
+    current_player_number = (current_round % players) + 1
+    current_player_name = player_names[current_player_number]
+    print(f"\nSpeler {current_player_name} is aan de beurt!")
+
+    # Check if the player still has lives
+    if player_lives[current_player_number] <= 0:
+        print(f"Speler {current_player_name} heeft geen levens meer en slaat deze beurt over.")
+        continue
+
     # Choose a random category
     chosen_category_name, chosen_category = random.choice(list(categories.items()))
     print(f"Categorie: {chosen_category_name}")
@@ -30,13 +60,20 @@ for _ in range(rounds):
     # Check if the answer is correct
     if user_answer.strip().lower() == correct_answer.strip().lower():
         print("Correct!")
+        player_scores[current_player_number] += 1
     else:
-        if lives == 1:
-            print("Je hebt geen levens meer over. Game over!")
-            break
-        else:
-            lives -= 1
+        player_lives[current_player_number] -= 1
+        if player_lives[current_player_number] <= 0:
             print(f"Fout! Het juiste antwoord is: {correct_answer}")
-            print(f"Je hebt nog maar {lives} levens over")
-else:
-    print("Je hebt alle rondes voltooid! Goed gedaan!")
+            print(f"Speler {current_player_name} heeft geen levens meer. Game over voor deze speler!")
+        else:
+            print(f"Fout! Het juiste antwoord is: {correct_answer}")
+            print(f"Speler {current_player_name} heeft nog maar {player_lives[current_player_number]} levens over.")
+
+# Display final scores
+print("\nEindscore:")
+for player, score in player_scores.items():
+    print(f"Speler {player_names[player]}: {score} punten en {player_lives[player]} levens over.")
+# Determine the winner
+winner = max(player_scores, key=player_scores.get)
+print(f"\nDe winnaar is {player_names[winner]} met {player_scores[winner]} punten en {player_lives[player]} levens over!")
