@@ -17,10 +17,14 @@ for i in range(1, players + 1):
     name = input(f"Voer de naam in van speler {i}: ")
     birth_year = input(f"In welk jaar ben je geboren, {name}?: ")
     likes_ice_cream = input(f"Hou je van ijs, {name}? (ja/nee): ")
+    favorite_color = input(f"Wat is je lievelingskleur, {name}?: ")
+    plays_sport = input(f"Doe je aan sport, {name}? (ja/nee): ")
     player_details[i] = {
         "name": name,
         "birth_year": birth_year,
-        "likes_ice_cream": likes_ice_cream.lower() == "ja"
+        "likes_ice_cream": likes_ice_cream.lower() == "ja",
+        "favorite_color": favorite_color.strip().lower(),
+        "plays_sport": plays_sport.lower() == "ja"
     }
 
 # Update player_names to use the new details
@@ -100,6 +104,20 @@ for current_round in range(total_rounds):
 
     # Choose a random question from the chosen category
     question, correct_answer = random.choice(list(chosen_category.items()))
+
+    # Add player-specific questions randomly (20% chance)
+    import random as _random
+    if _random.random() < 0.2:
+        special_q = _random.choice(["ijs", "kleur", "sport"])
+        if special_q == "ijs":
+            question = f"Hou je van ijs, {current_player_name}? (ja/nee)"
+            correct_answer = "ja" if current_player_details["likes_ice_cream"] else "nee"
+        elif special_q == "kleur":
+            question = f"Wat is je lievelingskleur, {current_player_name}?"
+            correct_answer = current_player_details["favorite_color"]
+        elif special_q == "sport":
+            question = f"Doe je aan sport, {current_player_name}? (ja/nee)"
+            correct_answer = "ja" if current_player_details["plays_sport"] else "nee"
 
     # Personalize the question using player details
     if "jaar" in question.lower() and current_player_details["birth_year"]:
