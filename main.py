@@ -10,11 +10,26 @@ else:
 
 lives = int(input("Hoeveel levens wil je hebben?: "))
 rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
-# Ask for player names
-player_names = {}
+
+# Ask additional questions about players at the beginning
+player_details = {}
 for i in range(1, players + 1):
     name = input(f"Voer de naam in van speler {i}: ")
-    player_names[i] = name
+    birth_year = input(f"In welk jaar ben je geboren, {name}?: ")
+    likes_ice_cream = input(f"Hou je van ijs, {name}? (ja/nee): ")
+    favorite_color = input(f"Wat is je lievelingskleur, {name}?: ")
+    plays_sport = input(f"Doe je aan sport, {name}? (ja/nee): ")
+    player_details[i] = {
+        "name": name,
+        "birth_year": birth_year,
+        "likes_ice_cream": likes_ice_cream.lower() == "ja",
+        "favorite_color": favorite_color.strip().lower(),
+        "plays_sport": plays_sport.lower() == "ja"
+    }
+
+# Update player_names to use the new details
+player_names = {i: details["name"] for i, details in player_details.items()}
+
 # Define categories with names
 categories = {
     "Historisch Bewustzijn": {
@@ -70,11 +85,12 @@ player_scores = {player: 0 for player in range(1, players + 1)}
 # Total rounds to be played
 total_rounds = rounds * players
 
-# Update the loop to use player numbers instead of names
+# Update the loop to include player details in the questions
 for current_round in range(total_rounds):
     # Determine the current player number
     current_player_number = (current_round % players) + 1
     current_player_name = player_names[current_player_number]
+    current_player_details = player_details[current_player_number]
     print(f"\nSpeler {current_player_name} is aan de beurt!")
 
     # Check if the player still has lives
@@ -88,6 +104,27 @@ for current_round in range(total_rounds):
 
     # Choose a random question from the chosen category
     question, correct_answer = random.choice(list(chosen_category.items()))
+
+    # Add player-specific questions randomly (20% chance)
+    import random as _random
+    if _random.random() < 0.2:
+        special_q = _random.choice(["ijs", "kleur", "sport"])
+        if special_q == "ijs":
+            question = f"Hou je van ijs, {current_player_name}? (ja/nee)"
+            correct_answer = "ja" if current_player_details["likes_ice_cream"] else "nee"
+        elif special_q == "kleur":
+            question = f"Wat is je lievelingskleur, {current_player_name}?"
+            correct_answer = current_player_details["favorite_color"]
+        elif special_q == "sport":
+            question = f"Doe je aan sport, {current_player_name}? (ja/nee)"
+            correct_answer = "ja" if current_player_details["plays_sport"] else "nee"
+
+    # Personalize the question using player details
+    if "jaar" in question.lower() and current_player_details["birth_year"]:
+        question = question.replace("jaar", f"jaar (je bent geboren in {current_player_details['birth_year']})")
+    if "ijs" in question.lower() and current_player_details["likes_ice_cream"]:
+        question += " (Je houdt van ijs!)"
+
     print(question)
 
     # Ask the user for an answer
