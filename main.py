@@ -101,14 +101,16 @@ for current_round in range(total_rounds):
             print("Correct!")
             player_scores[current_player_number] += 1
             break
-        elif player_upgrades[f"player_{current_player_number}"] in upgrades:
-            if user_answer.strip().lower() == player_upgrades[f"player_{current_player_number}"]:
-                print("upgrade_test") # Placeholder for upgrade logic
-                player_upgrades[f"player_{current_player_number}"] = None
-                break
-            elif user_answer.strip().lower() in upgrades:
-                print("Jij hebt die upgrade niet, probeer de vraag opnieuw.")
-                continue
+        elif (
+            player_upgrades[f"player_{current_player_number}"] is not None
+            and user_answer.strip().lower() == player_upgrades[f"player_{current_player_number}"]
+        ):
+            print("upgrade_test") # Placeholder for upgrade logic
+            player_upgrades[f"player_{current_player_number}"] = None
+            break
+        elif user_answer.strip().lower() in upgrades:
+            print("Jij hebt die upgrade niet, probeer de vraag opnieuw.")
+            continue
         else:
             player_lives[current_player_number] -= 1
             if player_lives[current_player_number] <= 0:
