@@ -11,11 +11,19 @@ else:
 lives = int(input("Hoeveel levens wil je hebben?: "))
 rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
 
+upgrades = {"skipper", "switcher", "pill", "helpline", "screw"}
+
 # Vraag alleen om namen van spelers
 player_names = {}
+player_upgrades = {}
+
 for i in range(1, players + 1):
+    player_upgrades[f"player_{i}"] = random.choice(list(upgrades))
     name = input(f"Voer de naam in van speler {i}: ")
     player_names[i] = name
+    print("Jij krijgt...")
+    time.sleep(1)
+    print(f"Een {player_upgrades[f'player_{i}']} upgrade!")
 
 # Define categories with names
 categories = {
@@ -86,19 +94,30 @@ for current_round in range(total_rounds):
     question, correct_answer = random.choice(list(chosen_category.items()))
     print(question)
 
-    user_answer = input("Jouw antwoord: ")
+    while True:
+        user_answer = input("Jouw antwoord: ")
 
-    if user_answer.strip().lower() == correct_answer.strip().lower():
-        print("Correct!")
-        player_scores[current_player_number] += 1
-    else:
-        player_lives[current_player_number] -= 1
-        if player_lives[current_player_number] <= 0:
-            print(f"Fout! Het juiste antwoord is: {correct_answer}")
-            print(f"Speler {current_player_name} heeft geen levens meer. Game over voor deze speler!")
+        if user_answer.strip().lower() == correct_answer.strip().lower():
+            print("Correct!")
+            player_scores[current_player_number] += 1
+            break
+        elif player_upgrades[f"player_{current_player_number}"] in upgrades:
+            if user_answer.strip().lower() == player_upgrades[f"player_{current_player_number}"]:
+                print("upgrade_test") # Placeholder for upgrade logic
+                player_upgrades[f"player_{current_player_number}"] = None
+                break
+            elif user_answer.strip().lower() in upgrades:
+                print("Jij hebt die upgrade niet, probeer de vraag opnieuw.")
+                continue
         else:
-            print(f"Fout! Het juiste antwoord is: {correct_answer}")
-            print(f"Speler {current_player_name} heeft nog maar {player_lives[current_player_number]} levens over.")
+            player_lives[current_player_number] -= 1
+            if player_lives[current_player_number] <= 0:
+                print(f"Fout! Het juiste antwoord is: {correct_answer}")
+                print(f"Speler {current_player_name} heeft geen levens meer. Game over voor deze speler!")
+            else:
+                print(f"Fout! Het juiste antwoord is: {correct_answer}")
+                print(f"Speler {current_player_name} heeft nog maar {player_lives[current_player_number]} levens over.")
+            break
 
 print("\nEindscore:")
 for player, score in player_scores.items():
