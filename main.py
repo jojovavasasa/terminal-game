@@ -1,6 +1,8 @@
 import time
 import random
 
+print("Welkom bij het spel '  NIET VERGETEN DE NAAM HIER TE ZETTEN  '")
+
 players = int(input("Hoeveel spelers zijn er?: "))
 lives = int(input("Hoeveel levens wil je hebben?: "))
 rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
@@ -28,7 +30,7 @@ player_upgrades = {}
 for i in range(1, players + 1):
     player_upgrades[f"player_{i}"] = random.choice(list(upgrades))
     name = input(f"Voer de naam in van speler {i}: ")
-    if name.isnumeric == True:
+    if name.isnumeric():
         print("bro wat doe je nu?")
         exit()  
     if name in player_names.values():
