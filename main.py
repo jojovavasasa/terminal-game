@@ -2,10 +2,22 @@ import time
 import random
 
 players = int(input("Hoeveel spelers zijn er?: "))
-
 lives = int(input("Hoeveel levens wil je hebben?: "))
 rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
 screw = int(input("Hoeveel vragen moet de 'screw' upgrade beantwoorden?: "))
+
+if players <= 0:
+    print("Je bent een beetje te alleen, probeer het opnieuw met meer spelers.")
+    exit()
+elif lives <= 0:
+    print("Ben je al dood? probeer het opnieuw met meer levens.")
+    exit()
+elif rounds <= 0:  
+    print("Amai, het spel is al gedaan, probeer het opnieuw met meer rondes.")
+    exit()
+elif screw <= 0:
+    print("Het is de bedoeling als je de screw ability gebruikt, dat je gescrewd wordt, probeer het opnieuw met meer vragen voor de 'screw' upgrade.")
+    exit()
 
 upgrades = {"pill", "skipper", "switcher", "screw"}
 
@@ -16,7 +28,14 @@ player_upgrades = {}
 for i in range(1, players + 1):
     player_upgrades[f"player_{i}"] = random.choice(list(upgrades))
     name = input(f"Voer de naam in van speler {i}: ")
-    player_names[i] = name
+    if name.isnumeric == True:
+        print("bro wat doe je nu?")
+        exit()  
+    if name in player_names.values():
+        print(f"De naam '{name}' is al in gebruik. De naam wordt aangepast naar 'Speler {i}'.")
+        player_names[i] = f"Speler {i}"
+    else:
+        player_names[i] = name
     print("Jij krijgt...")
     time.sleep(1)
     print(f"Een {player_upgrades[f'player_{i}']} upgrade!")
