@@ -1,7 +1,7 @@
 import time
 import random
 
-print("Welkom bij het spel '  NIET VERGETEN DE NAAM HIER TE ZETTEN  '")
+print("Welkom bij het spel!")
 
 players = int(input("Hoeveel spelers zijn er?: "))
 lives = int(input("Hoeveel levens wil je hebben?: "))
