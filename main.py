@@ -7,6 +7,7 @@ players = int(input("Hoeveel spelers zijn er?: "))
 lives = int(input("Hoeveel levens wil je hebben?: "))
 rounds = int(input("Hoeveel rondes moet elke speler spelen?: "))
 screw = int(input("Hoeveel vragen moet de 'screw' upgrade beantwoorden?: "))
+helpline = int(input("Hoeveel antwoorden krijg je met de 'helpline' upgrade?: "))
 
 if players <= 0:
     print("Je bent een beetje te alleen, probeer het opnieuw met meer spelers.")
@@ -21,7 +22,7 @@ elif screw <= 0:
     print("Het is de bedoeling als je de screw ability gebruikt, dat je gescrewd wordt, probeer het opnieuw met meer vragen voor de 'screw' upgrade.")
     exit()
 
-upgrades = {"pill", "skipper", "switcher", "screw"}
+upgrades = {"helpline", "pill", "skipper", "switcher", "screw"} 
 
 # Vraag alleen om namen van spelers
 player_names = {}
@@ -178,6 +179,25 @@ for current_round in range(total_rounds):
                     else:
                         print(f"Speler {current_player_name} heeft nog maar {player_lives[current_player_number]} levens over.")
                 break
+            elif player_upgrades[f"player_{current_player_number}"] == "helpline":
+                print("Je hebt de 'helpline' upgrade gebruikt! Je krijgt 3 antwoorden, waarvan er 1 correct is!")
+                possible_answers = [correct_answer] #HEIR IERG
+                for B in range(helpline =- 1):
+                    possible_answers.append(random.choice(list(chosen_category.values())))
+                random.shuffle(possible_answers)
+                print("Mogelijke antwoorden:", possible_answers)
+                user_answer = input("Kies het juiste antwoord: ")
+                if user_answer.strip().lower() == correct_answer.strip().lower():
+                    print("Correct!")
+                    player_scores[current_player_number] += 1
+                else:
+                    player_lives[current_player_number] -= 1
+                    if player_lives[current_player_number] <= 0:
+                        print(f"Fout! Het juiste antwoord is: {correct_answer}")
+                        print(f"Speler {current_player_name} heeft geen levens meer. Game over voor deze speler!")
+                    else:
+                        print(f"Fout! Het juiste antwoord is: {correct_answer}")
+                        print(f"Speler {current_player_name} heeft nog maar {player_lives[current_player_number]} levens over.")
             other_player = random.choice([p for p in range(1, players + 1) if p != current_player_number and player_lives[p] > 0])
             other_player_name = player_names[other_player]
             print(f"{other_player_name}, jij moet nu antwoorden!")
