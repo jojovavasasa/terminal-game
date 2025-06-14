@@ -1,5 +1,6 @@
 import time
 import random
+from image import DrawImage
 
 from categories import categories
 
@@ -35,6 +36,9 @@ for i in range(1, players + 1):
     name = input(f"Voer de naam in van speler {i}: ")
     if name.isnumeric():
         print("bro wat doe je nu?")
+        exit()
+    if name == "":
+        print("oh hallo _ dat is een HEEL mooie naam")
         exit()  
     if name in player_names.values():
         print(f"De naam '{name}' is al in gebruik. De naam wordt aangepast naar 'Speler {i}'.")
