@@ -33,7 +33,6 @@ categories = {
     "Techniek": {
         "Hoe noemt het ding waarmee je hout snijdt?": "Zaag",
         "Wat doet een schroevendraaier?": "Draaien",
-        "Wat is de eenheid van elektrische stroom?": "Ampère",
         "Hoe heet het gereedschap om een moer vast te draaien?": "Steeksleutel",
     },
     "Ruimtelijk Bewustzijn": {
