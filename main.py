@@ -54,6 +54,8 @@ player_scores = {player: 0 for player in range(1, players + 1)}
 
 total_rounds = rounds * players
 
+used_questions = []
+
 for current_round in range(total_rounds):
     current_player_number = (current_round % players) + 1
     current_player_name = player_names[current_player_number]
@@ -65,8 +67,12 @@ for current_round in range(total_rounds):
 
     chosen_category_name, chosen_category = random.choice(list(categories.items()))
     print(f"Categorie: {chosen_category_name}")
-
+    
     question, correct_answer = random.choice(list(chosen_category.items()))
+    while question not in used_questions:
+        question, correct_answer = random.choice(list(chosen_category.items()))
+    used_questions.append(question)
+
     print(question)
 
     while True:
