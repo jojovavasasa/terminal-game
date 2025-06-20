@@ -12,7 +12,7 @@ categories = {
     },
     "Wiskunde": {
         "Wat is 2 + 2?": "4",
-        "Hoeveel zijden heeft een kubus?": "6",
+        "Hoeveel vlakken heeft een kubus?": "6",
         "Wat is de oppervlakte van een kubus met een zijde van 3 cm?": "54cm²",
         "Wat is de vierkantswortel van 81?": "9",
         "Wat is 12 x 12?": "144",
