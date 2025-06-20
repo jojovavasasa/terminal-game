@@ -113,7 +113,7 @@ for current_round in range(total_rounds):
     print(f"Categorie: {chosen_category_name}")
     
     question, correct_answer = random.choice(list(chosen_category.items()))
-    while question not in used_questions:
+    while question in used_questions:
         question, correct_answer = random.choice(list(chosen_category.items()))
     used_questions.append(question)
 
